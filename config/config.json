@@ -1,0 +1,17 @@
+{
+  "development": {
+    "database": "linkdb",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "database": "linkdb",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "database": "linkdb",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
