@@ -1,8 +1,12 @@
 <% include partials/header.ejs%>
 
-<form method='post' action='/links'>
-    <input type='text' name='inputText' placeholder="Paste link here">
-    <input type='submit'>
-</form>
+<div id="home">
+    <h1>Enter link to be shortened</h1>
+
+    <form method='post' action='/links'>
+        <input type='text' name='inputText' id='input-text' placeholder="Paste link here">
+        <input type='submit'>
+    </form>
+</div>
 
 <% include partials/footer.ejs%>

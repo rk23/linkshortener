@@ -14,7 +14,6 @@ app.get('/', function(req, res){
 });
 
 app.get('/links', function(req, res) {
-    console.log('here in correct')
     db.links.all({
         order: 'count DESC'
     }).then(function(data){
@@ -24,8 +23,16 @@ app.get('/links', function(req, res) {
 })
 
 app.get('/links/:id', function(req, res) {
-    var id = req.params.id;
-   res.render('links/show', {id: id}); 
+    var id = parseInt(req.params.id);
+    var encoded = hashids.encode(id);    
+    db.links.findAll({
+        attriubtes: ['url', 'count'],
+        where: {
+            id: id
+        }
+    }).then(function(data){
+        res.render('links/show', {url: data[0].dataValues.url, count: data[0].dataValues.count, hash: encoded}); 
+    })
 });
 
 
@@ -37,7 +44,7 @@ app.post('/links', function(req, res){
     
     db.links.create(newLink).then(function(link) {
         var encoded = hashids.encode(link.id);
-        res.render('links/show', {hash: encoded});
+        res.render('links/show', {hash: encoded, url: req.body.inputText, count: 0});
     })
 });
 

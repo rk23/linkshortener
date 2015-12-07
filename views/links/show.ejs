@@ -1,7 +1,9 @@
 <% include ../partials/header.ejs %>
 
-<h1>Links</h1>
+<h1>Link</h1>
 
-<p><a href="/<%=hash%>">localhost:3000/<%=hash%></a></p>
+<p>Url: <a href="/<%=url%>"><%=url%></a></p>
+<p>Shortened url: <a href="/<%=hash%>">localhost:3000/<%=hash%></a></p>
+<p>This link has been clicked <b><%=count%></b> times</p>
 
 <% include ../partials/footer.ejs %>
