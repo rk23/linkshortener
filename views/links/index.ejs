@@ -2,6 +2,27 @@
 
 <h1>Links</h1>
 
-<%=links%>
+<table class="table table-striped" style="width:50%; text-align: left">
+    <tr>
+        <th>#</th>
+        <th>url</th>
+        <th>Count</th>
+    </tr>
+
+    <% for (var i = 0; i < links.length; i++) {%>
+        <tr>
+            <td>
+                <%=i + 1%>
+            </td>
+            <td>
+                <a href="<%='http://' + links[i].dataValues.url%>"><%=links[i].dataValues.url%></a>
+            </td>
+            <td>
+                <%=links[i].dataValues.count%>
+            </td>
+        </tr>
+        <%}%>
+</table>
+
 
 <% include ../partials/footer.ejs %>

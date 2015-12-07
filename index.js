@@ -13,35 +13,21 @@ app.get('/', function(req, res){
     res.render('index');
 });
 
-app.get('/:hash', function(req, res){
-    var hash = req.params.hash;
-    var decoded = hashids.decode(hash);
-        
-    db.links.findAll({
-        attributes: ['url'],
-        where: {
-            id: decoded
-        }
+app.get('/links', function(req, res) {
+    console.log('here in correct')
+    db.links.all({
+        order: 'count DESC'
     }).then(function(data){
-        res.redirect('http://' + data[0].dataValues.url);
-    })
-});
+        res.render('links/index', {links: data});
+    });
+    
+})
 
 app.get('/links/:id', function(req, res) {
     var id = req.params.id;
    res.render('links/show', {id: id}); 
 });
 
-app.get('/links', function(req, res) {
-    
-    db.links.findAll({
-        attributes: ['url']
-    }).then(function(data){
-        console.log(data)
-        res.render('links/index', {links: data[0].dataValues.url})
-    })
-    
-})
 
 app.post('/links', function(req, res){
     var newLink = {
@@ -54,6 +40,31 @@ app.post('/links', function(req, res){
         res.render('links/show', {hash: encoded});
     })
 });
+
+app.get('/:hash', function(req, res){
+    var hash = req.params.hash;
+    var decoded = hashids.decode(hash);
+        
+    db.links.findAll({
+        attributes: ['url', 'count'],
+        where: {
+            id: decoded
+        }
+    }).then(function(data){
+        var count = parseInt(data[0].dataValues.count) + 1, 
+            url = data[0].dataValues.url;
+        
+        db.links.update({
+            count: count
+        }, {
+            where: {
+                id: decoded
+            }   
+        })
+        res.redirect('http://' + url);
+    })
+});
+
 
 app.use(function(req, res) {
     res.status(404).render('404');
